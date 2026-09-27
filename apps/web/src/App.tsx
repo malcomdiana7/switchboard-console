@@ -880,6 +880,11 @@ function Sequences() {
                 {t('createSequence')}
               </Typography>
               <Stack spacing={2}>
+                {create.isError && (
+                  <Alert severity="error">
+                    {t('error')}: {(create.error as Error).message}
+                  </Alert>
+                )}
                 <TextField
                   label={t('sequenceName')}
                   value={name}

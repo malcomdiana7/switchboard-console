@@ -345,7 +345,7 @@ function registerSequenceRoutes(app: FastifyInstance, db: Db) {
     await db.query('INSERT INTO sequences(id,name,steps) VALUES($1,$2,$3)', [
       id,
       body.name,
-      body.steps,
+      JSON.stringify(body.steps),
     ]);
     return { id };
   });
