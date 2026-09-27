@@ -468,6 +468,7 @@ function Groups() {
       }),
     onSuccess: () => qc.invalidateQueries({ queryKey: ['groups'] }),
   });
+  const createError = create.error as (Error & { code?: string }) | null;
   return (
     <Page
       title={t('groups')}
@@ -493,6 +494,23 @@ function Groups() {
         ) : null
       }
     >
+      {create.isError && (
+        <Alert
+          severity="error"
+          sx={{ mb: 2 }}
+          action={
+            createError?.code === 'ACCOUNT_NOT_ONLINE' ? (
+              <Button component={Link} to="/accounts" color="inherit" size="small">
+                {t('goToAccounts')}
+              </Button>
+            ) : undefined
+          }
+        >
+          {createError?.code === 'ACCOUNT_NOT_ONLINE'
+            ? t('accountNotOnline')
+            : `${t('error')}: ${createError?.message ?? ''}`}
+        </Alert>
+      )}
       <Stack spacing={2}>
         {q.data?.map((g) => (
           <Card

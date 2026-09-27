@@ -18,7 +18,10 @@ export class GatewayClient {
     try {
       response = await fetch(`${this.baseUrl}${path}`, {
         ...init,
-        headers: { 'content-type': 'application/json', ...init.headers },
+        headers: {
+          ...(init.body === undefined ? {} : { 'content-type': 'application/json' }),
+          ...init.headers,
+        },
       });
     } catch {
       throw new AppError(503, 'GATEWAY_UNAVAILABLE', 'Gateway is unavailable');

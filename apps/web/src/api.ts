@@ -21,7 +21,7 @@ export async function api<T>(path: string, init: RequestInit = {}, retry = true)
     ...init,
     credentials: 'include',
     headers: {
-      'content-type': 'application/json',
+      ...(init.body === undefined ? {} : { 'content-type': 'application/json' }),
       ...(accessToken ? { authorization: `Bearer ${accessToken}` } : {}),
       ...init.headers,
     },
