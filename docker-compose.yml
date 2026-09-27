@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:18.6
+    environment:
+      POSTGRES_USER: switchboard
+      POSTGRES_PASSWORD: switchboard
+      POSTGRES_DB: switchboard
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./_data/postgres:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U switchboard"]
+      interval: 3s
+      timeout: 3s
+      retries: 20

@@ -1,0 +1,36 @@
+{
+  "name": "switchboard-console",
+  "type": "module",
+  "private": true,
+  "version": "0.1.0",
+  "packageManager": "npm@11.17.0",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "npm run build -w @switchboard/shared && npm run build --workspaces --if-present",
+    "dev": "concurrently -n api,web,gateway,agent,llm -c blue,green,yellow,magenta,cyan \"npm run dev -w @switchboard/api\" \"npm run dev -w @switchboard/web\" \"npm run dev -w @switchboard/mock-gateway\" \"npm run dev -w @switchboard/mock-agent\" \"npm run dev -w @switchboard/llm-agent\"",
+    "lint": "eslint .",
+    "typecheck": "npm run build -w @switchboard/shared && npm run typecheck --workspaces --if-present",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "bash -c 'docker compose up -d postgres && npm run db:migrate && npm run db:seed && ENABLE_C_FEATURES=false playwright test'",
+    "format": "prettier --write .",
+    "db:migrate": "npm run db:migrate -w @switchboard/api",
+    "db:seed": "npm run db:seed -w @switchboard/api"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "^0.5.8",
+    "@playwright/test": "^1.55.1",
+    "@eslint/js": "^9.36.0",
+    "@types/node": "^24.5.2",
+    "concurrently": "^9.2.1",
+    "eslint": "^9.36.0",
+    "prettier": "^3.6.2",
+    "tsx": "^4.20.5",
+    "typescript": "^5.9.2",
+    "typescript-eslint": "^8.44.1",
+    "vitest": "^3.2.4"
+  }
+}
