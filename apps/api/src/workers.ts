@@ -471,8 +471,10 @@ async function queueAgentTrigger(c: any, groupId: string, p: any) {
       [
         id,
         groupId,
-        [trigger],
-        [{ role: 'user', content: [{ type: 'text', text: JSON.stringify(context) }] }],
+        JSON.stringify([trigger]),
+        JSON.stringify([
+          { role: 'user', content: [{ type: 'text', text: JSON.stringify(context) }] },
+        ]),
       ],
     );
     await emitEvent(c, 'agent_run', { runId: id, groupId, status: 'running', endReason: null });

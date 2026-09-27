@@ -591,8 +591,10 @@ async function endRun(db: Db, run: any, reason: string, status: string) {
         [
           id,
           run.group_id,
-          context.triggerMessages,
-          [{ role: 'user', content: [{ type: 'text', text: JSON.stringify(context) }] }],
+          JSON.stringify(context.triggerMessages),
+          JSON.stringify([
+            { role: 'user', content: [{ type: 'text', text: JSON.stringify(context) }] },
+          ]),
         ],
       );
       await emitEvent(c, 'agent_run', {
